@@ -1,10 +1,13 @@
 #include "render.h"
 #include <iostream>
+#include <cassert>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
 #include "glm/gtc/type_ptr.hpp"
+
+
 
 geometry makeGeometry(vertex * verts, size_t vertCount, unsigned * indices, size_t indxCount)
 {
@@ -68,12 +71,43 @@ shader makeShader(const char * vertSource, const char * fragSource)
 	glCompileShader(vert);
 	glCompileShader(frag);
 
+	// check vertex shader
+	GLint vert_compiled;
+	glGetShaderiv(vert, GL_COMPILE_STATUS, &vert_compiled);
+	if (vert_compiled != GL_TRUE)
+	{
+		GLsizei log_length = 0;
+		GLchar message[1024];
+		glGetShaderInfoLog(vert, 1024, &log_length, message);
+	}
+
+	// check fragment shader
+	GLint frag_compiled;
+	glGetShaderiv(frag, GL_COMPILE_STATUS, &vert_compiled);
+	if (vert_compiled != GL_TRUE)
+	{
+		GLsizei log_length = 0;
+		GLchar message[1024];
+		glGetShaderInfoLog(vert, 1024, &log_length, message);
+	}
+
 	// attach the shaders
 	glAttachShader(newShad.program, vert);
 	glAttachShader(newShad.program, frag);
 
 	// link the shaders
 	glLinkProgram(newShad.program);
+
+	// check the shader object
+	GLint program_linked;
+	glGetProgramiv(newShad.program, GL_LINK_STATUS, &program_linked);
+	if (program_linked != GL_TRUE)
+	{
+		GLsizei log_length = 0;
+		GLchar message[1024];
+		glGetProgramInfoLog(newShad.program, 1024, &log_length, message);
+		// Write the error to a log
+	}
 
 	// delete the shaders
 	glDeleteShader(vert);
@@ -184,6 +218,7 @@ texture loadTexture(const char * imagePath)
 							 STBI_default);
 
 	// TODO: ensure that rawPixelData is NOT NULL. if it is, the image failed to load
+	assert(rawPixelData != nullptr);
 
 	// pass the data to make texture to make the texture
 	texture tex = makeTexture(imageWidth, imageHeight, imageFormat, rawPixelData);

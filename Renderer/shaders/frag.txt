@@ -1,4 +1,4 @@
-#version 430
+#version 430 core
 layout (location = 3) uniform sampler2D albedo;
 in vec4 vColor;
 out vec4 vertColor;
@@ -6,4 +6,6 @@ in vec2 vUV;
 void main()
 {
 	vertColor = texture(albedo, vUV);
+	//vertColor = texture(albedo, vec2(0.5f, 0.5f));
+	//vertColor = vec4(1,0,0,1);
 }
