@@ -5,16 +5,17 @@ using std::string;
 class Time
 {
 private:
-	float totalTime;          // time since start of the program
+	float lastTime;
 	float lastDeltaTime;      // time at the end of the last frame
 
 public:
-	float time() const;       // time since start of the program
-	float systemTime() const; // get current real-world time
-	float deltaTime() const;  // time between frames
+	float programTime();       // time since start of the program
+	float systemTime(); // get current real-world time
+	float deltaTime();  // time between frames
 
+	void tick();			  // increment time
 	void resetTime();         // reset time to zero again
-	void setTime(float);      // set time to a new value
+	void setTime(float newTime);      // set time to a new value
 };
 
 string loadShaderFile(string shaderName);

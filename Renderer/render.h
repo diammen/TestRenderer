@@ -7,6 +7,7 @@ struct vertex
 {
 	glm::vec4 pos;
 	glm::vec4 color;
+	glm::vec4 norm;
 	glm::vec2 uv;
 };
 
@@ -27,9 +28,18 @@ struct texture
 	unsigned width, height, channels;
 };
 
+struct light
+{
+	glm::vec3 direction;
+	glm::vec4 color;
+	glm::vec4 pos;
+};
+
 geometry makeGeometry(vertex * verts, size_t vertCount,
 					  unsigned * indices, size_t indxCount);
 void freeGeometry(geometry &geo);
+
+geometry loadGeometry(const char * source);
 
 shader makeShader(const char * vertSource,
 			      const char * fragSource);
@@ -37,6 +47,8 @@ void freeShader(shader &shad);
 
 void draw(const shader &shad, const geometry &geo);
 
+void setUniform(const shader &shad, GLuint location, const glm::vec3 &value);
+void setUniform(const shader &shad, GLuint location, const glm::vec4 &value);
 void setUniform(const shader &shad, GLuint location, const glm::mat4 &value);
 void setUniform(const shader &shad, GLuint location, const texture &value, int textureSlot);
 

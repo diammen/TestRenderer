@@ -1,6 +1,9 @@
 #include "helper.h"
+#include "glfw/glfw3.h"
 #include <fstream>
 #include <iostream>
+#include <time.h>
+#include <stdio.h>
 using std::ifstream;
 using std::getline;
 using std::ios;
@@ -33,4 +36,33 @@ string loadShaderFile(string shaderName)
 	file.close();
 
 	return output;
+}
+
+float Time::programTime()
+{
+	return glfwGetTime();
+}
+
+float Time::systemTime()
+{
+	time_t curTime;
+	curTime = time(NULL);
+	return curTime;
+}
+
+float Time::deltaTime()
+{
+	lastDeltaTime = programTime() - lastTime;
+	lastTime = programTime();
+	return lastDeltaTime;
+}
+
+void Time::resetTime()
+{
+	lastTime = 0;
+}
+
+void Time::setTime(float newTime)
+{
+	lastTime = newTime;
 }
