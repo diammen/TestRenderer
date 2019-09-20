@@ -38,7 +38,7 @@ int main()
 
 	geometry triangle = makeGeometry(triVerts, 3, triIndices, 3);
 
-	geometry yellyfish = loadGeometry("models\\yellyfish.obj");
+	geometry yellyfish = loadGeometry("models\\test.obj");
 
 	geometry plane = generatePlane(5, 5);
 
@@ -53,11 +53,11 @@ int main()
 	glm::mat4 triModel = glm::identity<glm::mat4>();
 
 	glm::mat4 camProj = glm::perspective(glm::radians(45.f), 640.f / 480.f, 0.1f, 100.0f);
-	glm::mat4 camView = glm::lookAt(glm::vec3(0, 0, -100), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	glm::mat4 camView = glm::lookAt(glm::vec3(0, 0, -5), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 
 	light sun;
 	sun.direction = glm::vec4{ -1, -1, 1, 1 };
-	sun.color = glm::vec4{ 1.0, 0.0, 1.0, 1.0 };
+	sun.color = glm::vec4{ 1.0, 1.0, 1.0, 1.0 };
 
 	setUniform(basicShad, 0, camProj);
 	setUniform(basicShad, 1, camView);
@@ -74,9 +74,6 @@ int main()
 		//triModel = glm::translate(triModel, glm::vec3(0.05f, 0, 0));
 
 		setUniform(basicShad, 2, triModel);
-
-		//draw(basicShad, triangle);
-		//draw(basicShad, plane);
 		draw(basicShad, yellyfish);
 
 		assert(glGetError() == GL_NO_ERROR);
